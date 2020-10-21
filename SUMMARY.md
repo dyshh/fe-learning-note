@@ -4,5 +4,4 @@
 
 ## JAVASCRIPT深入系列
 
-* [Untitled](javascript-shen-ru-xi-lie/untitled.md)
-
+* [JavaScirpt深入之从原型到原型链](javascript深入系列/JavaScirpt深入之从原型到原型链.md)
