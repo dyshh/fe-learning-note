@@ -4,4 +4,4 @@
 
 ## JAVASCRIPT深入系列
 
-* [JavaScirpt深入之从原型到原型链](javascript深入系列/JavaScirpt深入之从原型到原型链.md)
+* [从原型到原型链](javascript深入系列/从原型到原型链.md)
