@@ -1,16 +1,16 @@
 # 类数组对象与arguments
 
->JavaScript深入系列第十三篇，讲解类数组对象与对象的相似与差异以及arguments的注意要点
+> JavaScript深入系列第十三篇，讲解类数组对象与对象的相似与差异以及arguments的注意要点
 
 ## 类数组对象
 
 所谓的类数组对象:
 
->拥有一个 length 属性和若干索引属性的对象
+> 拥有一个 length 属性和若干索引属性的对象
 
 举个例子：
 
-```js
+```javascript
 var array = ['name', 'age', 'sex'];
 
 var arrayLike = {
@@ -27,7 +27,7 @@ var arrayLike = {
 
 ## 读写
 
-```js
+```javascript
 console.log(array[0]); // name
 console.log(arrayLike[0]); // name
 
@@ -37,14 +37,14 @@ arrayLike[0] = 'new name';
 
 ## 长度
 
-```js
+```javascript
 console.log(array.length); // 3
 console.log(arrayLike.length); // 3
 ```
 
 ## 遍历
 
-```js
+```javascript
 for(var i = 0, len = array.length; i < len; i++) {
    ……
 }
@@ -57,7 +57,7 @@ for(var i = 0, len = arrayLike.length; i < len; i++) {
 
 那类数组对象可以使用数组的方法吗？比如：
 
-```js
+```javascript
 arrayLike.push('4');
 ```
 
@@ -71,7 +71,7 @@ arrayLike.push('4');
 
 既然无法直接调用，我们可以用 Function.call 间接调用：
 
-```js
+```javascript
 var arrayLike = {0: 'name', 1: 'age', 2: 'sex', length: 3 }
 
 Array.prototype.join.call(arrayLike, '&'); // name&age&sex
@@ -89,7 +89,7 @@ Array.prototype.map.call(arrayLike, function(item){
 
 在上面的例子中已经提到了一种类数组转数组的方法，再补充三个：
 
-```js
+```javascript
 var arrayLike = {0: 'name', 1: 'age', 2: 'sex', length: 3 }
 // 1. slice
 Array.prototype.slice.call(arrayLike); // ["name", "age", "sex"] 
@@ -103,7 +103,7 @@ Array.prototype.concat.apply([], arrayLike)
 
 那么为什么会讲到类数组对象呢？以及类数组有什么应用吗？
 
-要说到类数组对象，Arguments 对象就是一个类数组对象。在客户端 JavaScript 中，一些 DOM 方法(document.getElementsByTagName()等)也返回类数组对象。
+要说到类数组对象，Arguments 对象就是一个类数组对象。在客户端 JavaScript 中，一些 DOM 方法\(document.getElementsByTagName\(\)等\)也返回类数组对象。
 
 ## Arguments对象
 
@@ -113,7 +113,7 @@ Arguments 对象只定义在函数体中，包括了函数的参数和其他属�
 
 举个例子：
 
-```js
+```javascript
 function foo(name, age, sex) {
     console.log(arguments);
 }
@@ -131,7 +131,7 @@ foo('name', 'age', 'sex')
 
 Arguments对象的length属性，表示实参的长度，举个例子：
 
-```js
+```javascript
 function foo(b, c, d){
     console.log("实参的长度为：" + arguments.length)
 }
@@ -150,7 +150,7 @@ Arguments 对象的 callee 属性，通过它可以调用函数自身。
 
 讲个闭包经典面试题使用 callee 的解决方法：
 
-```js
+```javascript
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -172,7 +172,7 @@ data[2]();
 
 ## arguments 和对应参数的绑定
 
-```js
+```javascript
 function foo(name, age, sex, hobbit) {
 
     console.log(name, arguments[0]); // name name
@@ -211,7 +211,7 @@ foo('name', 'age')
 
 将参数从一个函数传递到另一个函数
 
-```js
+```javascript
 // 使用 apply 将 foo 的参数传递给 bar
 function foo() {
     bar.apply(this, arguments);
@@ -227,7 +227,7 @@ foo(1, 2, 3)
 
 使用ES6的 ... 运算符，我们可以轻松转成数组。
 
-```js
+```javascript
 function func(...arguments) {
     console.log(arguments); // [1, 2, 3]
 }
@@ -245,4 +245,6 @@ arguments的应用其实很多，在下个系列，也就是 JavaScript 专题�
 2. 函数柯里化
 3. 递归调用
 4. 函数重载
-...
+
+   ...
+

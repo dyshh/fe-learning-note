@@ -1,18 +1,18 @@
 # 执行上下文
 
->JavaScript深入系列第七篇，结合之前所讲的四篇文章，以权威指南的demo为例，具体讲解当函数执行的时候，执行上下文栈、变量对象、作用域链是如何变化的。
+> JavaScript深入系列第七篇，结合之前所讲的四篇文章，以权威指南的demo为例，具体讲解当函数执行的时候，执行上下文栈、变量对象、作用域链是如何变化的。
 
 ## 前言
 
-在[《执行上下文栈》](执行上下文栈.md)中讲到，当 JavaScript 代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(execution contexts)。
+在[《执行上下文栈》](zhi-hang-shang-xia-wen-zhan.md)中讲到，当 JavaScript 代码执行一段可执行代码\(executable code\)时，会创建对应的执行上下文\(execution contexts\)。
 
 对于每个执行上下文，都有三个重要属性：
 
-* 变量对象(Variable object，VO)
-* 作用域链(Scope chain)
+* 变量对象\(Variable object，VO\)
+* 作用域链\(Scope chain\)
 * this
 
-然后分别在[《变量对象》](变量对象.md)、[《作用域链》](作用域链.md)、[《从ECMAScript规范解读this》](从ECMAScript规范解读this.md)中讲解了这三个属性。
+然后分别在[《变量对象》](bian-liang-dui-xiang.md)、[《作用域链》](zuo-yong-yu-lian.md)、[《从ECMAScript规范解读this》](cong-ecmascript-gui-fan-jie-du-this.md)中讲解了这三个属性。
 
 阅读本文前，如果对以上的概念不是很清楚，希望先阅读这些文章。
 
@@ -20,9 +20,9 @@
 
 ## 思考题
 
-在[《词法作用域和动态作用域》](词法作用域和动态作用域.md)中，提出这样一道思考题：
+在[《词法作用域和动态作用域》](ci-fa-zuo-yong-yu-he-dong-tai-zuo-yong-yu.md)中，提出这样一道思考题：
 
-```js
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -34,7 +34,7 @@ function checkscope(){
 checkscope();
 ```
 
-```js
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -48,13 +48,13 @@ checkscope()();
 
 两段代码都会打印'local scope'。虽然两段代码执行的结果一样，但是两段代码究竟有哪些不同呢？
 
-紧接着就在下一篇[《执行上下文栈》](执行上下文栈.md)中，讲到了两者的区别在于执行上下文栈的变化不一样，然而，如果是这样笼统的回答，依然显得不够详细，本篇就会详细的解析执行上下文栈和执行上下文的具体变化过程。
+紧接着就在下一篇[《执行上下文栈》](zhi-hang-shang-xia-wen-zhan.md)中，讲到了两者的区别在于执行上下文栈的变化不一样，然而，如果是这样笼统的回答，依然显得不够详细，本篇就会详细的解析执行上下文栈和执行上下文的具体变化过程。
 
 ## 具体执行分析
 
 我们分析第一段代码：
 
-```js
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -70,7 +70,7 @@ checkscope();
 
 1.执行全局代码，创建全局执行上下文，全局上下文被压入执行上下文栈
 
-```js
+```javascript
     ECStack = [
         globalContext
     ];
@@ -78,7 +78,7 @@ checkscope();
 
 2.全局上下文初始化
 
-```js
+```javascript
     globalContext = {
         VO: [global, scope, checkscope],
         Scope: [globalContext.VO],
@@ -86,9 +86,9 @@ checkscope();
     }
 ```
 
-2.初始化的同时，checkscope 函数被创建，保存作用域链到函数的内部属性[[scope]]
+2.初始化的同时，checkscope 函数被创建，保存作用域链到函数的内部属性\[\[scope\]\]
 
-```js
+```javascript
     checkscope.[[scope]] = [
       globalContext.VO
     ];
@@ -96,7 +96,7 @@ checkscope();
 
 3.执行 checkscope 函数，创建 checkscope 函数执行上下文，checkscope 函数执行上下文被压入执行上下文栈
 
-```js
+```javascript
     ECStack = [
         checkscopeContext,
         globalContext
@@ -105,14 +105,14 @@ checkscope();
 
 4.checkscope 函数执行上下文初始化：
 
-1. 复制函数 [[scope]] 属性创建作用域链，
+1. 复制函数 \[\[scope\]\] 属性创建作用域链，
 2. 用 arguments 创建活动对象，
 3. 初始化活动对象，即加入形参、函数声明、变量声明，
 4. 将活动对象压入 checkscope 作用域链顶端。
 
-同时 f 函数被创建，保存作用域链到 f 函数的内部属性[[scope]]
+同时 f 函数被创建，保存作用域链到 f 函数的内部属性\[\[scope\]\]
 
-```js
+```javascript
     checkscopeContext = {
         AO: {
             arguments: {
@@ -128,7 +128,7 @@ checkscope();
 
 5.执行 f 函数，创建 f 函数执行上下文，f 函数执行上下文被压入执行上下文栈
 
-```js
+```javascript
     ECStack = [
         fContext,
         checkscopeContext,
@@ -138,12 +138,12 @@ checkscope();
 
 6.f 函数执行上下文初始化, 以下跟第 4 步相同：
 
-1. 复制函数 [\[scope]] 属性创建作用域链
+1. 复制函数 \[\[scope\]\] 属性创建作用域链
 2. 用 arguments 创建活动对象
 3. 初始化活动对象，即加入形参、函数声明、变量声明
 4. 将活动对象压入 f 作用域链顶端
 
-```js
+```javascript
     fContext = {
         AO: {
             arguments: {
@@ -159,7 +159,7 @@ checkscope();
 
 8.f 函数执行完毕，f 函数上下文从执行上下文栈中弹出
 
-```js
+```javascript
     ECStack = [
         checkscopeContext,
         globalContext
@@ -168,7 +168,7 @@ checkscope();
 
 9.checkscope 函数执行完毕，checkscope 执行上下文从执行上下文栈中弹出
 
-```js
+```javascript
     ECStack = [
         globalContext
     ];
@@ -176,7 +176,7 @@ checkscope();
 
 第二段代码就留给大家去尝试模拟它的执行过程。
 
-```js
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -195,3 +195,4 @@ checkscope()();
 [《一道js面试题引发的思考》](https://github.com/kuitos/kuitos.github.io/issues/18)
 
 本文写的太好，给了我很多启发。感激不尽！
+

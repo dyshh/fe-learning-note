@@ -12,7 +12,7 @@
 
 ## 1. 工厂模式
 
-```js
+```javascript
 function createPerson(name) {
     var o = new Object();
     o.name = name;
@@ -30,7 +30,7 @@ var person1 = createPerson('kevin');
 
 ## 2. 构造函数模式
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
     this.getName = function () {
@@ -47,7 +47,7 @@ var person1 = new Person('kevin');
 
 ## 2.1 构造函数模式优化
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
     this.getName = getName;
@@ -66,7 +66,7 @@ var person1 = new Person('kevin');
 
 ## 3. 原型模式
 
-```js
+```javascript
 function Person(name) {
 
 }
@@ -85,7 +85,7 @@ var person1 = new Person();
 
 ## 3.1 原型模式优化
 
-```js
+```javascript
 function Person(name) {
 
 }
@@ -106,7 +106,7 @@ var person1 = new Person();
 
 ## 3.2 原型模式优化
 
-```js
+```javascript
 function Person(name) {
 
 }
@@ -130,7 +130,7 @@ var person1 = new Person();
 
 构造函数模式与原型模式双剑合璧。
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
 }
@@ -151,7 +151,7 @@ var person1 = new Person();
 
 ## 4.1 动态原型模式
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
     if (typeof this.getName != "function") {
@@ -168,7 +168,7 @@ var person1 = new Person();
 
 解释下为什么：
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
     if (typeof this.getName != "function") {
@@ -189,7 +189,6 @@ person1.getName();
 
 // 注释掉上面的代码，这句是可以执行的。
 person2.getName();
-
 ```
 
 为了解释这个问题，假设开始执行`var person1 = new Person('kevin')`。
@@ -200,14 +199,14 @@ person2.getName();
 
 1. 首先新建一个对象
 2. 然后将对象的原型指向 Person.prototype
-3. 然后 Person.apply(obj)
+3. 然后 Person.apply\(obj\)
 4. 返回这个对象
 
 注意这个时候，回顾下 apply 的实现步骤，会执行 obj.Person 方法，这个时候就会执行 if 语句里的内容，注意构造函数的 prototype 属性指向了实例的原型，使用字面量方式直接覆盖 Person.prototype，并不会更改实例的原型的值，person1 依然是指向了以前的原型，而不是 Person.prototype。而之前的原型是没有 getName 方法的，所以就报错了！
 
 如果你就是想用字面量方式写代码，可以尝试下这种：
 
-```js
+```javascript
 function Person(name) {
     this.name = name;
     if (typeof this.getName != "function") {
@@ -227,12 +226,11 @@ var person2 = new Person('daisy');
 
 person1.getName(); // kevin
 person2.getName();  // daisy
-
 ```
 
 ### 5.1 寄生构造函数模式
 
-```js
+```javascript
 function Person(name) {
 
     var o = new Object();
@@ -258,7 +256,7 @@ console.log(person1 instanceof Object)  // true
 
 这样方法可以在特殊情况下使用。比如我们想创建一个具有额外方法的特殊数组，但是又不想直接修改Array构造函数，我们可以这样写：
 
-```js
+```javascript
 function SpecialArray() {
     var values = new Array();
 
@@ -291,7 +289,7 @@ console.log(colors2.toPipedString()); // red2|blue2|green2
 
 但是值得一提的是，上面例子中的循环：
 
-```js
+```javascript
 for (var i = 0, len = arguments.length; i < len; i++) {
     values.push(arguments[i]);
 }
@@ -299,13 +297,13 @@ for (var i = 0, len = arguments.length; i < len; i++) {
 
 可以替换成：
 
-```js
+```javascript
 values.push.apply(values, arguments);
 ```
 
 ## 5.2 稳妥构造函数模式
 
-```js
+```javascript
 function person(name){
     var o = new Object();
     o.sayName = function(){
@@ -323,7 +321,6 @@ person1.name = "daisy";
 person1.sayName(); // kevin
 
 console.log(person1.name); // daisy
-
 ```
 
 所谓稳妥对象，指的是没有公共属性，而且其方法也不引用 this 的对象。
@@ -336,3 +333,4 @@ console.log(person1.name); // daisy
 稳妥对象最适合在一些安全的环境中。
 
 稳妥构造函数模式也跟工厂模式一样，无法识别对象所属类型。
+

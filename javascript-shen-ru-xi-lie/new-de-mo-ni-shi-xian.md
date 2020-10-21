@@ -12,7 +12,7 @@
 
 举个例子：
 
-```js
+```javascript
 // Otaku 御宅族，简称宅
 function Otaku (name, age) {
     this.name = name;
@@ -46,7 +46,7 @@ person.sayYourName(); // I am Kevin
 
 因为 new 是关键字，所以无法像 bind 函数一样直接覆盖，所以我们写一个函数，命名为 objectFactory，来模拟 new 的效果。用的时候是这样的：
 
-```js
+```javascript
 function Otaku () {
     ……
 }
@@ -61,13 +61,13 @@ var person = objectFactory(Otaku, ……)
 
 分析：
 
-因为 new 的结果是一个新对象，所以在模拟实现的时候，我们也要建立一个新对象，假设这个对象叫 obj，因为 obj 会具有 Otaku 构造函数里的属性，想想经典继承的例子，我们可以使用 Otaku.apply(obj, arguments)来给 obj 添加新的属性。
+因为 new 的结果是一个新对象，所以在模拟实现的时候，我们也要建立一个新对象，假设这个对象叫 obj，因为 obj 会具有 Otaku 构造函数里的属性，想想经典继承的例子，我们可以使用 Otaku.apply\(obj, arguments\)来给 obj 添加新的属性。
 
 在 JavaScript 深入系列第一篇中，我们便讲了原型与原型链，我们知道实例的 \_\_proto\_\_ 属性会指向构造函数的 prototype，也正是因为建立起这样的关系，实例可以访问原型上的属性。
 
 现在，我们可以尝试着写第一版了：
 
-```js
+```javascript
 // 第一版代码
 function objectFactory() {
 
@@ -86,7 +86,7 @@ function objectFactory() {
 
 在这一版中，我们：
 
-1. 用new Object() 的方式新建了一个对象 obj
+1. 用new Object\(\) 的方式新建了一个对象 obj
 2. 取出第一个参数，就是我们要传入的构造函数。此外因为 shift 会修改原数组，所以 arguments 会被去除第一个参数
 3. 将 obj 的原型指向构造函数，这样 obj 就可以访问到构造函数原型中的属性
 4. 使用 apply，改变构造函数 this 的指向到新建的对象，这样 obj 就可以访问到构造函数中的属性
@@ -94,15 +94,15 @@ function objectFactory() {
 
 更多关于：
 
-原型与原型链，可以看[《从原型到原型链》](从原型到原型链.md)
+原型与原型链，可以看[《从原型到原型链》](cong-yuan-xing-dao-yuan-xing-lian.md)
 
-apply，可以看[《call和apply的模拟实现》](call和apply的模拟实现.md)
+apply，可以看[《call和apply的模拟实现》](call-he-apply-de-mo-ni-shi-xian.md)
 
-经典继承，可以看[《继承》](继承.md)
+经典继承，可以看[《继承》](https://github.com/dyshh/fe-learning-note/tree/1eacb08326c42773050986cb089f700c14208475/articles/javascript深入系列/继承.md)
 
 复制以下的代码，到浏览器中，我们可以做一下测试：
 
-```js
+```javascript
 function Otaku (name, age) {
     this.name = name;
     this.age = age;
@@ -133,13 +133,13 @@ console.log(person.strength) // 60
 person.sayYourName(); // I am Kevin
 ```
 
-[]\~(￣▽￣)\~**
+\[\]~\(￣▽￣\)~\*\*
 
 ## 返回值效果实现
 
 接下来我们再来看一种情况，假如构造函数有返回值，举个例子：
 
-```js
+```javascript
 function Otaku (name, age) {
     this.strength = 60;
     this.age = age;
@@ -156,7 +156,6 @@ console.log(person.name) // Kevin
 console.log(person.habit) // Games
 console.log(person.strength) // undefined
 console.log(person.age) // undefined
-
 ```
 
 在这个例子中，构造函数返回了一个对象，在实例 person 中只能访问返回的对象中的属性。
@@ -165,7 +164,7 @@ console.log(person.age) // undefined
 
 再举个例子：
 
-```js
+```javascript
 function Otaku (name, age) {
     this.strength = 60;
     this.age = age;
@@ -187,7 +186,7 @@ console.log(person.age) // 18
 
 再来看第二版的代码，也是最后一版的代码：
 
-```js
+```javascript
 // 第二版的代码
 function objectFactory() {
 
@@ -203,3 +202,4 @@ function objectFactory() {
 
 };
 ```
+

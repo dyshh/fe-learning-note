@@ -6,19 +6,19 @@
 
 MDN 对闭包的定义为：
 
->闭包是指那些能够访问自由变量的函数。
+> 闭包是指那些能够访问自由变量的函数。
 
 那什么是自由变量呢？
 
->自由变量是指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量。
+> 自由变量是指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量。
 
 由此，我们可以看出闭包共有两部分组成：
 
->闭包 = 函数 + 函数能够访问的自由变量
+> 闭包 = 函数 + 函数能够访问的自由变量
 
 举个例子：
 
-```js
+```javascript
 var a = 1;
 
 function foo() {
@@ -44,8 +44,8 @@ ECMAScript中，闭包指的是：
 
 1. 从理论角度：所有的函数。因为它们都在创建的时候就将上层上下文的数据保存起来了。哪怕是简单的全局变量也是如此，因为函数中访问全局变量就相当于是在访问自由变量，这个时候使用最外层的作用域。
 2. 从实践角度：以下函数才算是闭包：
-    1. 即使创建它的上下文已经销毁，它仍然存在（比如，内部函数从父函数中返回）
-    2. 在代码中引用了自由变量
+   1. 即使创建它的上下文已经销毁，它仍然存在（比如，内部函数从父函数中返回）
+   2. 在代码中引用了自由变量
 
 接下来就来讲讲实践上的闭包。
 
@@ -53,7 +53,7 @@ ECMAScript中，闭包指的是：
 
 让我们先写个例子，例子依然是来自《JavaScript权威指南》，稍微做点改动：
 
-```js
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -69,7 +69,7 @@ foo();
 
 首先我们要分析一下这段代码中执行上下文栈和执行上下文的变化情况。
 
-另一个与这段代码相似的例子，在[《执行上下文》](执行上下文.md)中有着非常详细的分析。如果看不懂以下的执行过程，建议先阅读这篇文章。
+另一个与这段代码相似的例子，在[《执行上下文》](zhi-hang-shang-xia-wen.md)中有着非常详细的分析。如果看不懂以下的执行过程，建议先阅读这篇文章。
 
 这里直接给出简要的执行过程：
 
@@ -84,15 +84,15 @@ foo();
 
 了解到这个过程，我们应该思考一个问题，那就是：
 
-当 f 函数执行的时候，checkscope 函数上下文已经被销毁了啊(即从执行上下文栈中被弹出)，怎么还会读取到 checkscope 作用域下的 scope 值呢？
+当 f 函数执行的时候，checkscope 函数上下文已经被销毁了啊\(即从执行上下文栈中被弹出\)，怎么还会读取到 checkscope 作用域下的 scope 值呢？
 
-以上的代码，要是转换成 PHP，就会报错，因为在 PHP 中，f 函数只能读取到自己作用域和全局作用域里的值，所以读不到 checkscope 下的 scope 值。(这段我问的PHP同事……)
+以上的代码，要是转换成 PHP，就会报错，因为在 PHP 中，f 函数只能读取到自己作用域和全局作用域里的值，所以读不到 checkscope 下的 scope 值。\(这段我问的PHP同事……\)
 
 然而 JavaScript 却是可以的！
 
 当我们了解了具体的执行过程后，我们知道 f 执行上下文维护了一个作用域链：
 
-```js
+```javascript
 fContext = {
     Scope: [AO, checkscopeContext.AO, globalContext.VO],
 }
@@ -107,7 +107,7 @@ fContext = {
 
 在这里再补充一个《JavaScript权威指南》英文原版对闭包的定义:
 
-> This combination of a function object and a scope (a set of variable bindings) in which the function’s variables are resolved is called a closure in the computer science literature.
+> This combination of a function object and a scope \(a set of variable bindings\) in which the function’s variables are resolved is called a closure in the computer science literature.
 
 闭包在计算机科学中也只是一个普通的概念，大家不要去想得太复杂。
 
@@ -115,7 +115,7 @@ fContext = {
 
 接下来，看这道刷题必刷，面试必考的闭包题：
 
-```js
+```javascript
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -131,9 +131,9 @@ data[2]();
 
 答案是都是 3，让我们分析一下原因：
 
-当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
+当执行到 data\[0\] 函数之前，此时全局上下文的 VO 为：
 
-```js
+```javascript
 globalContext = {
     VO: {
         data: [...],
@@ -142,21 +142,21 @@ globalContext = {
 }
 ```
 
-当执行 data[0] 函数的时候，data[0] 函数的作用域链为：
+当执行 data\[0\] 函数的时候，data\[0\] 函数的作用域链为：
 
-```js
+```javascript
 data[0]Context = {
     Scope: [AO, globalContext.VO]
 }
 ```
 
-data[0]Context 的 AO 并没有 i 值，所以会从 globalContext.VO 中查找，i 为 3，所以打印的结果就是 3。
+data\[0\]Context 的 AO 并没有 i 值，所以会从 globalContext.VO 中查找，i 为 3，所以打印的结果就是 3。
 
-data[1] 和 data[2] 是一样的道理。
+data\[1\] 和 data\[2\] 是一样的道理。
 
 所以让我们改成闭包看看：
 
-```js
+```javascript
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -172,9 +172,9 @@ data[1]();
 data[2]();
 ```
 
-当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
+当执行到 data\[0\] 函数之前，此时全局上下文的 VO 为：
 
-```js
+```javascript
 globalContext = {
     VO: {
         data: [...],
@@ -185,9 +185,9 @@ globalContext = {
 
 跟没改之前一模一样。
 
-当执行 data[0] 函数的时候，data[0] 函数的作用域链发生了改变：
+当执行 data\[0\] 函数的时候，data\[0\] 函数的作用域链发生了改变：
 
-```js
+```javascript
 data[0]Context = {
     Scope: [AO, 匿名函数Context.AO globalContext.VO]
 }
@@ -195,7 +195,7 @@ data[0]Context = {
 
 匿名函数执行上下文的 AO 为：
 
-```js
+```javascript
 匿名函数Context = {
     AO: {
         arguments: {
@@ -207,6 +207,7 @@ data[0]Context = {
 }
 ```
 
-data[0]Context 的 AO 并没有 i 值，所以会沿着作用域链从匿名函数 Context.AO 中查找，这时候就会找 i 为 0，找到了就不会往 globalContext.VO 中查找了，即使 globalContext.VO 也有 i 的值(值为3)，所以打印的结果就是 0。
+data\[0\]Context 的 AO 并没有 i 值，所以会沿着作用域链从匿名函数 Context.AO 中查找，这时候就会找 i 为 0，找到了就不会往 globalContext.VO 中查找了，即使 globalContext.VO 也有 i 的值\(值为3\)，所以打印的结果就是 0。
 
-data[1] 和 data[2] 是一样的道理。
+data\[1\] 和 data\[2\] 是一样的道理。
+
