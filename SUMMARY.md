@@ -22,4 +22,4 @@
 
 ## React深入系列
 
-* [useEffect完整指南](articles/React深入系列/1.理解useEffect.md)
+* [理解useEffect](articles/React深入系列/1.理解useEffect.md)
