@@ -6,7 +6,7 @@
 
 一句话介绍 bind:
 
-> bind\(\) 方法会创建一个新函数。当这个新函数被调用时，bind\(\) 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。\(来自于 MDN \)
+>bind() 方法会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。(来自于 MDN )
 
 由此我们可以首先得出 bind 函数的两个特点：
 
@@ -17,7 +17,7 @@
 
 从第一个特点开始，我们举个例子：
 
-```javascript
+```js
 var foo = {
     value: 1
 };
@@ -32,9 +32,9 @@ var bindFoo = bar.bind(foo);
 bindFoo(); // 1
 ```
 
-关于指定 this 的指向，我们可以使用 call 或者 apply 实现，关于 call 和 apply 的模拟实现，可以查看[《call和apply的模拟实现》](call-he-apply-de-mo-ni-shi-xian.md)。我们来写第一版的代码：
+关于指定 this 的指向，我们可以使用 call 或者 apply 实现，关于 call 和 apply 的模拟实现，可以查看[《call和apply的模拟实现》](call和apply的模拟实现.md)。我们来写第一版的代码：
 
-```javascript
+```js
 // 第一版
 Function.prototype.bind2 = function (context) {
     var self = this;
@@ -47,7 +47,7 @@ Function.prototype.bind2 = function (context) {
 
 此外，之所以 `return self.apply(context)`，是考虑到绑定函数可能是有返回值的，依然是这个例子：
 
-```javascript
+```js
 var foo = {
     value: 1
 };
@@ -65,7 +65,7 @@ console.log(bindFoo()); // 1
 
 接下来看第二点，可以传入参数。这个就有点让人费解了，我在 bind 的时候，是否可以传参呢？我在执行 bind 返回的函数的时候，可不可以传参呢？让我们看个例子：
 
-```javascript
+```js
 var foo = {
     value: 1
 };
@@ -88,7 +88,7 @@ bindFoo('18');
 
 这可咋办？不急，我们用 arguments 进行处理：
 
-```javascript
+```js
 // 第二版
 Function.prototype.bind2 = function (context) {
 
@@ -109,11 +109,11 @@ Function.prototype.bind2 = function (context) {
 
 完成了这两点，最难的部分到啦！因为 bind 还有一个特点，就是
 
-> 一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。
+>一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。
 
 也就是说当 bind 返回的函数作为构造函数的时候，bind 时指定的 this 值会失效，但传入的参数依然生效。举个例子：
 
-```javascript
+```js
 var value = 2;
 
 var foo = {
@@ -143,11 +143,11 @@ console.log(obj.friend);
 
 注意：尽管在全局和 foo 中都声明了 value 值，最后依然返回了 undefind，说明绑定的 this 失效了，如果大家了解 new 的模拟实现，就会知道这个时候的 this 已经指向了 obj。
 
-\(哈哈，我这是为我的下一篇文章[《new的模拟实现》](new-de-mo-ni-shi-xian.md)打广告\)。
+(哈哈，我这是为我的下一篇文章[《new的模拟实现》](new的模拟实现.md)打广告)。
 
 所以我们可以通过修改返回的函数的原型来实现，让我们写一下：
 
-```javascript
+```js
 // 第三版
 Function.prototype.bind2 = function (context) {
     var self = this;
@@ -164,15 +164,16 @@ Function.prototype.bind2 = function (context) {
     fBound.prototype = this.prototype;
     return fBound;
 }
+
 ```
 
-如果对原型链稍有困惑，可以查看[《从原型到原型链》](cong-yuan-xing-dao-yuan-xing-lian.md)。
+如果对原型链稍有困惑，可以查看[《从原型到原型链》](从原型到原型链.md)。
 
 ## 构造函数效果的优化实现
 
 但是在这个写法中，我们直接将 fBound.prototype = this.prototype，我们直接修改 fBound.prototype 的时候，也会直接修改绑定函数的 prototype。这个时候，我们可以通过一个空函数来进行中转：
 
-```javascript
+```js
 // 第四版
 Function.prototype.bind2 = function (context) {
 
@@ -192,7 +193,7 @@ Function.prototype.bind2 = function (context) {
 }
 ```
 
-到此为止，大的问题都已经解决，给自己一个赞！o\(￣▽￣\)ｄ
+到此为止，大的问题都已经解决，给自己一个赞！o(￣▽￣)ｄ
 
 ## 三个小问题
 
@@ -202,15 +203,17 @@ Function.prototype.bind2 = function (context) {
 
 在 MDN 中文版讲 bind 的模拟实现时，apply 这里的代码是：
 
-```javascript
+```js
+
 self.apply(this instanceof self ? this : context || this, args.concat(bindArgs))
+
 ```
 
 多了一个关于 context 是否存在的判断，然而这个是错误的！
 
 举个例子：
 
-```javascript
+```js
 var value = 2;
 var foo = {
     value: 1,
@@ -224,7 +227,7 @@ function bar() {
 foo.bar() // 2
 ```
 
-以上代码正常情况下会打印 2，如果换成了 context \|\| this，这段代码就会打印 1！
+以上代码正常情况下会打印 2，如果换成了 context || this，这段代码就会打印 1！
 
 所以这里不应该进行 context 的判断，大家查看 MDN 同样内容的英文版，就不存在这个判断！
 
@@ -232,7 +235,7 @@ foo.bar() // 2
 
 不行，我们要报错！
 
-```javascript
+```js
 if (typeof this !== "function") {
   throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
 }
@@ -242,7 +245,7 @@ if (typeof this !== "function") {
 
 那别忘了做个兼容：
 
-```javascript
+```js
 Function.prototype.bind = Function.prototype.bind || function () {
     ……
 };
@@ -254,7 +257,7 @@ Function.prototype.bind = Function.prototype.bind || function () {
 
 所以最最后的代码就是：
 
-```javascript
+```js
 Function.prototype.bind2 = function (context) {
 
     if (typeof this !== "function") {
@@ -276,4 +279,3 @@ Function.prototype.bind2 = function (context) {
     return fBound;
 }
 ```
-
