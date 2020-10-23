@@ -6,6 +6,6 @@
 
 这本*Gitbook*旨在巩固前端同学的知识体系，后续也会不断更新
 
-现已更新完 **《JAVASCRIPT深入系列》**
+**《JAVASCRIPT深入系列》** 是我觉得写的很好的一篇，因此收录下来，也对[原文](https://github.com/mqyqingfeng/Blog/issues/2)做了一些改动，加上了自己的理解
 
 Respect!

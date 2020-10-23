@@ -18,7 +18,7 @@
 * [new的模拟实现](articles/Javascript深入系列/new的模拟实现.md)
 * [类数组对象与arguments](articles/Javascript深入系列/类数组对象与arguments.md)
 * [创建对象的多种方式以及优缺点](articles/Javascript深入系列/创建对象的多种方式以及优缺点.md)
-* [继承的多种方式以及优缺点](articles/Javascript深入系列/继承的多种方式以及优缺点.md)
+* [继承的多种方式和优缺点](articles/Javascript深入系列/继承的多种方式和优缺点.md)
 
 ## React深入系列
 

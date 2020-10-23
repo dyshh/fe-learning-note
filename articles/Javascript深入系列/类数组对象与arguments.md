@@ -76,12 +76,12 @@ var arrayLike = {0: 'name', 1: 'age', 2: 'sex', length: 3 }
 
 Array.prototype.join.call(arrayLike, '&'); // name&age&sex
 
-Array.prototype.slice.call(arrayLike, 0); // ["name", "age", "sex"] 
+Array.prototype.slice.call(arrayLike, 0); // ["name", "age", "sex"]
 // slice可以做到类数组转数组
 
 Array.prototype.map.call(arrayLike, function(item){
     return item.toUpperCase();
-}); 
+});
 // ["NAME", "AGE", "SEX"]
 ```
 
@@ -92,11 +92,11 @@ Array.prototype.map.call(arrayLike, function(item){
 ```js
 var arrayLike = {0: 'name', 1: 'age', 2: 'sex', length: 3 }
 // 1. slice
-Array.prototype.slice.call(arrayLike); // ["name", "age", "sex"] 
+Array.prototype.slice.call(arrayLike); // ["name", "age", "sex"]
 // 2. splice
-Array.prototype.splice.call(arrayLike, 0); // ["name", "age", "sex"] 
+Array.prototype.splice.call(arrayLike, 0); // ["name", "age", "sex"]
 // 3. ES6 Array.from
-Array.from(arrayLike); // ["name", "age", "sex"] 
+Array.from(arrayLike); // ["name", "age", "sex"]
 // 4. apply
 Array.prototype.concat.apply([], arrayLike)
 ```
@@ -155,7 +155,7 @@ var data = [];
 
 for (var i = 0; i < 3; i++) {
     (data[i] = function () {
-       console.log(arguments.callee.i) 
+       console.log(arguments.callee.i)
     }).i = i;
 }
 
@@ -237,9 +237,7 @@ func(1, 2, 3);
 
 ## 应用
 
-arguments的应用其实很多，在下个系列，也就是 JavaScript 专题系列中，我们会在 jQuery 的 extend 实现、函数柯里化、递归等场景看见 arguments 的身影。这篇文章就不具体展开了。
-
-如果要总结这些场景的话，暂时能想到的包括：
+暂时能想到的包括：
 
 1. 参数不定长
 2. 函数柯里化
