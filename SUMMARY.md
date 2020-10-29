@@ -2,6 +2,9 @@
 
 * [序章](README.md)
 
+* [再不学点动画就捞了](articles/再不学点动画就捞了.md)
+* [理解useEffect](articles/理解useEffect.md)
+
 ## Javascript深入系列
 
 * [从原型到原型链](articles/Javascript深入系列/从原型到原型链.md)
@@ -19,7 +22,3 @@
 * [类数组对象与arguments](articles/Javascript深入系列/类数组对象与arguments.md)
 * [创建对象的多种方式以及优缺点](articles/Javascript深入系列/创建对象的多种方式以及优缺点.md)
 * [继承的多种方式和优缺点](articles/Javascript深入系列/继承的多种方式和优缺点.md)
-
-## React深入系列
-
-* [理解useEffect](articles/React深入系列/理解useEffect.md)
