@@ -7,6 +7,5 @@
 * [继承的多种方式和优缺点](articles/继承的多种方式和优缺点.md)
 * [再不学点动画就捞了](articles/再不学点动画就捞了.md)
 * [理解useEffect](articles/理解useEffect.md)
-
-- [React函数式组件性能优化](articles/React函数式组件性能优化.md)
+* [React函数式组件性能优化](articles/React函数式组件性能优化.md)
 
